@@ -10,8 +10,10 @@ Item {
 
   property var hiddenWindows: []
   property var clients: []
+  property var activeWorkspace: null
   property string pendingClientAction: ""
   property string pendingClientArgument: ""
+  property bool clientsQueryWaitingForWorkspace: false
   property var pendingRestoreEntry: null
   property string pendingHyprAction: ""
   property var pendingHyprData: null
@@ -105,6 +107,11 @@ Item {
       pendingClientAction = "refresh"
       pendingClientArgument = ""
     }
+    if (!focusedWorkspaceProcess.running) {
+      focusedWorkspaceOutput = ""
+      activeWorkspace = null
+      focusedWorkspaceProcess.running = true
+    }
     if (!clientsProcess.running) clientsProcess.running = true
   }
 
@@ -116,13 +123,23 @@ Item {
     queryClients("hideFocused", "")
   }
 
-  function focusedClient() {
+  function focusedClient(workspace) {
+    if (!workspace) return null
+    if (Number(workspace.windows || 0) <= 0) return null
+    var activeName = String(workspace.name || "")
+    var activeId = Number(workspace.id || 0)
+    if (!activeName && activeId === 0) return null
+
     var fallback = null
     for (var i = 0; i < clients.length; i++) {
       var client = clients[i]
       if (!client || !addressOf(client)) continue
-      var workspace = client.workspace || {}
-      if (String(workspace.name || "") === root.voidWorkspace) continue
+      var clientWorkspace = client.workspace || {}
+      if (String(clientWorkspace.name || "") === root.voidWorkspace) continue
+      var sameWorkspace = activeId !== 0
+        ? Number(clientWorkspace.id || 0) === activeId
+        : String(clientWorkspace.name || "") === activeName
+      if (!sameWorkspace) continue
       if (Number(client.focusHistoryID) === 0) return client
       if (!fallback) fallback = client
     }
@@ -303,6 +320,11 @@ Item {
   property string clientsOutput: ""
 
   function clientsQueryFinished() {
+    if (focusedWorkspaceProcess.running) {
+      clientsQueryWaitingForWorkspace = true
+      return
+    }
+    clientsQueryWaitingForWorkspace = false
     var action = pendingClientAction
     var argument = pendingClientArgument
     pendingClientAction = ""
@@ -310,7 +332,7 @@ Item {
     syncClients(clientsOutput)
 
     if (action === "hideFocused") {
-      var client = focusedClient()
+      var client = focusedClient(activeWorkspace)
       var addr = addressOf(client)
       if (client && addr && !isHidden(addr)) {
         runHypr("hide", client, [
@@ -321,6 +343,23 @@ Item {
     } else if (action === "restore") {
       beginRestore(argument)
     }
+  }
+
+  Process {
+    id: focusedWorkspaceProcess
+    command: ["hyprctl", "-j", "activeworkspace"]
+    stdout: StdioCollector {
+      waitForEnd: true
+      onStreamFinished: root.focusedWorkspaceOutput = String(text || "")
+    }
+    onExited: root.focusedWorkspaceQueryFinished()
+  }
+
+  property string focusedWorkspaceOutput: ""
+
+  function focusedWorkspaceQueryFinished() {
+    activeWorkspace = parseJson(focusedWorkspaceOutput, null)
+    if (clientsQueryWaitingForWorkspace && !clientsProcess.running) clientsQueryFinished()
   }
 
   Process {
