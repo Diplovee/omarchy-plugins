@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "inkay.void",
+  "name": "Void",
+  "version": "1.0.0",
+  "author": "inkay",
+  "license": "MIT",
+  "description": "Hide running windows in the special:void workspace and restore them on demand.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Void",
+    "description": "Running windows hidden in the special:void workspace.",
+    "category": "Window management",
+    "aliases": ["void", "omarchy.void"],
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

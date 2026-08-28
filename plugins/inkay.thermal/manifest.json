@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "id": "inkay.thermal",
+  "name": "Thermal",
+  "version": "1.0.0",
+  "author": "inkay",
+  "description": "CPU/GPU/SSD heat monitor with color bar and detail panel",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Thermal",
+    "description": "Shows hottest temperature with a heat bar; click for breakdown",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "schema": [
+      {
+        "key": "warnAt",
+        "type": "number",
+        "label": "Warning °C",
+        "description": "Turns yellow/orange above this",
+        "defaultValue": 80
+      },
+      {
+        "key": "critAt",
+        "type": "number",
+        "label": "Critical °C",
+        "description": "Turns red above this",
+        "defaultValue": 90
+      },
+      {
+        "key": "pollMs",
+        "type": "number",
+        "label": "Poll interval (ms)",
+        "description": "How often to refresh sensors",
+        "defaultValue": 2000
+      },
+      {
+        "key": "useFahrenheit",
+        "type": "boolean",
+        "label": "Fahrenheit",
+        "description": "Show °F instead of °C",
+        "defaultValue": false
+      },
+      {
+        "key": "showBar",
+        "type": "boolean",
+        "label": "Show heat bar",
+        "description": "Thin fill bar under text",
+        "defaultValue": true
+      },
+      {
+        "key": "showIcon",
+        "type": "boolean",
+        "label": "Show icon",
+        "description": "Thermometer icon prefix",
+        "defaultValue": true
+      },
+      {
+        "key": "displaySensor",
+        "type": "select",
+        "label": "Display value",
+        "description": "Which sensor to show in bar",
+        "defaultValue": "max",
+        "options": [
+          { "value": "max", "label": "Hottest" },
+          { "value": "cpu", "label": "CPU" },
+          { "value": "gpu", "label": "GPU" },
+          { "value": "all", "label": "All (compact)" }
+        ]
+      }
+    ]
+  }
+}
