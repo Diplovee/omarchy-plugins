@@ -44,9 +44,6 @@ Item {
     if (!Array.isArray(parsed)) parsed = []
     clients = parsed
 
-    // A client that no longer appears in hyprctl -j clients has closed. Keep
-    // the saved workspace for live clients, while allowing title/class to
-    // follow a window whose title changes while it is hidden.
     var live = {}
     for (var i = 0; i < parsed.length; i++) {
       var address = addressOf(parsed[i])
@@ -54,16 +51,49 @@ Item {
     }
 
     var next = []
+    var seen = {}
     for (var j = 0; j < hiddenWindows.length; j++) {
       var saved = hiddenWindows[j]
       var current = live[String(saved.address)]
       if (!current) continue
+      // If the window is no longer in special:void, it was restored externally
+      // (manual movetoworkspace, or Hyprland recreated the window). Drop it.
+      var curWs = current.workspace || {}
+      if (String(curWs.name || "") !== root.voidWorkspace) continue
       var copy = {}
       for (var key in saved) copy[key] = saved[key]
       if (current.title !== undefined) copy.title = String(current.title || "")
       if (current.class !== undefined) copy.className = String(current.class || "")
       next.push(copy)
+      seen[String(saved.address)] = true
     }
+
+    // Discover orphaned void windows: any client in special:void not yet tracked
+    // (e.g. after shell restart, or moved via hyprctl outside the plugin).
+    for (var k = 0; k < parsed.length; k++) {
+      var cl = parsed[k]
+      var addr = addressOf(cl)
+      if (!addr || seen[addr]) continue
+      var ws = cl.workspace || {}
+      if (String(ws.name || "") !== root.voidWorkspace) continue
+      // Skip quickshell's own layer/overlay windows that live in special:void ephemerally
+      var cls = String(cl.class || cl.initialClass || "")
+      if (cls === "org.quickshell" || cls === "quickshell") continue
+      var w = workspaceOf(cl)
+      // For orphaned windows we don't know the original workspace; store current
+      // void location and let restore fall back to active workspace.
+      var entry = {
+        address: addr,
+        workspaceId: 0,
+        workspaceName: "",
+        title: String(cl.title || ""),
+        className: String(cl.class || cl.initialClass || ""),
+        initialClass: String(cl.initialClass || cl.class || "")
+      }
+      next.push(entry)
+      seen[addr] = true
+    }
+
     if (JSON.stringify(next) !== JSON.stringify(hiddenWindows)) hiddenWindows = next
   }
 
@@ -281,10 +311,11 @@ Item {
 
     if (action === "hideFocused") {
       var client = focusedClient()
-      if (client && !isHidden(addressOf(client))) {
+      var addr = addressOf(client)
+      if (client && addr && !isHidden(addr)) {
         runHypr("hide", client, [
           "hyprctl", "dispatch",
-          'hl.dsp.window.move({ workspace = "' + root.voidWorkspace + '", follow = false })'
+          'hl.dsp.window.move({ window = "address:' + addr + '", workspace = "' + root.voidWorkspace + '", follow = false })'
         ])
       }
     } else if (action === "restore") {

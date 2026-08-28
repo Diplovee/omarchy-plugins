@@ -25,9 +25,16 @@ BarWidget {
   function toggle() { if (panelObject) panelObject.toggle() }
   readonly property bool opened: panelObject ? panelObject.opened === true : false
 
-  visible: hiddenCount > 0
+  // Always visible so user can open the panel even when empty
+  // (shows 0 and "Nothing is hidden" hint). Previously hidden when 0,
+  // which made the feature undiscoverable.
+  visible: true
   implicitWidth: button.implicitWidth
   implicitHeight: button.implicitHeight
+  opacity: hiddenCount > 0 ? 1.0 : 0.55
+  // Keep the slot reserved but dim when empty so the bar doesn't jump
+  // when windows are hidden/restored. Remove `opacity` line if you prefer
+  // a fully solid icon even when empty.
 
   onBarChanged: injectPanel()
   onSettingsChanged: injectPanel()
@@ -61,6 +68,15 @@ BarWidget {
     function hideFocused(): string {
       if (root.panelObject) root.panelObject.hideFocused()
       return "ok"
+    }
+    function state(): string {
+      return JSON.stringify({
+        hiddenCount: root.hiddenCount,
+        visible: root.visible,
+        opacity: root.opacity,
+        hasPanel: !!root.panelObject,
+        panelHiddenCount: root.panelObject ? root.panelObject.hiddenWindows.length : -1
+      })
     }
   }
 
