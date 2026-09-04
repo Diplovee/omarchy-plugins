@@ -1,0 +1,36 @@
+/* Minimal fix - no color coordination, just fix grey border and weird square - keep blur via Hyprland */
+#browser, #appcontent, #tabbrowser-tabbox, #tabbrowser-tabpanels,
+#zen-main-app-wrapper, #zen-tabbox-wrapper, #tabbrowser-tabpanels,
+#main-window, #navigator-toolbox, #titlebar, #TabsToolbar {
+  border: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  margin: 0 !important;
+}
+.zen-essentials-container, #zen-essentials, #zen-sidebar-essentials-wrapper,
+.zen-essential, .zen-essential-icon, .zen-workspace-icon-wrapper,
+#zen-essentials, #zen-essentials-container, #zen-sidebar-essentials,
+.zen-essentials, .zen-essentials-wrapper, #tabbrowser-tabs, #vertical-tabs {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+#zen-essentials-search .search-icon, .zen-essentials-search-wrapper .search-icon,
+#zen-sidebar-search .search-icon, input[placeholder="Search..."] + image,
+.search-container image, #zen-sidebar-search-container image,
+.zen-essential image, .zen-workspace-icon image, #zen-sidebar .toolbarbutton-icon {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#zen-sidebar-panel, .zen-sidebar-panel, #zen-sidebar-wrapper, #zen-essentials-wrapper {
+  background: transparent !important;
+  border: none !important;
+}
