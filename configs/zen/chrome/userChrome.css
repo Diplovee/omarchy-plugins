@@ -1,5 +1,5 @@
-/* Omarchy Zen - Auto-generated from /home/inkay/.local/state/omarchy/current/theme/colors.toml on $(date) */
-/* Theme: ${1:-unknown} - background #00061e, foreground #EEF3F7, accent #5682bb */
+/* Omarchy Zen - Auto-generated from /home/inkay/.local/state/omarchy/current/theme/colors.toml on Fri Sep  4 03:37:05 AM CAT 2026 */
+/* Theme: fix-arrows - background #00061e, foreground #EEF3F7, accent #5682bb */
 
 :root {
   --lwt-accent-color: #00061e !important;
@@ -108,4 +108,29 @@ panel, menupopup, .panel-arrowcontent {
   color: #EEF3F7 !important;
   border: 1px solid #5682bb !important;
   border-radius: 12px !important;
+}
+
+/* Fix remaining chrome sections - top outer, right edge, content bg */
+#browser, #appcontent, #tabbrowser-tabbox, #tabbrowser-tabpanels, #main-window,
+#navigator-toolbox, #titlebar, #TabsToolbar, #zen-main-app-wrapper, #zen-tabbox-wrapper {
+  background-color: #00061e !important;
+  background: #00061e !important;
+  border-color: #5682bb30 !important;
+}
+
+#zen-appcontent-navbar-container, #zen-sidebar-top-buttons, #zen-sidebar-foot-buttons {
+  background-color: #00061e !important;
+}
+
+#main-window, #browser {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+#vertical-tabs, #zen-vertical-tabs, #tabbrowser-tabs {
+  background-color: #00061e !important;
+}
+
+#browser, scrollbox {
+  scrollbar-color: #5682bb #00061e !important;
 }

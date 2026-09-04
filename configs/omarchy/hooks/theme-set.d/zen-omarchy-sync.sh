@@ -41,8 +41,8 @@ CHROME_DIR="$HOME/.config/zen/$ZEN_PROFILE_DIR/chrome"
 mkdir -p "$CHROME_DIR"
 
 cat > "$CHROME_DIR/userChrome.css" <<EOF
-/* Omarchy Zen - Auto-generated from $COLORS_TOML on \$(date) */
-/* Theme: \${1:-unknown} - background $BACKGROUND, foreground $FOREGROUND, accent $ACCENT */
+/* Omarchy Zen - Auto-generated from $COLORS_TOML on $(date) */
+/* Theme: ${1:-unknown} - background $BACKGROUND, foreground $FOREGROUND, accent $ACCENT */
 
 :root {
   --lwt-accent-color: $BACKGROUND !important;
@@ -152,12 +152,37 @@ panel, menupopup, .panel-arrowcontent {
   border: 1px solid $ACCENT !important;
   border-radius: 12px !important;
 }
+
+/* Fix remaining chrome sections - top outer, right edge, content bg */
+#browser, #appcontent, #tabbrowser-tabbox, #tabbrowser-tabpanels, #main-window,
+#navigator-toolbox, #titlebar, #TabsToolbar, #zen-main-app-wrapper, #zen-tabbox-wrapper {
+  background-color: $BACKGROUND !important;
+  background: $BACKGROUND !important;
+  border-color: ${ACCENT}30 !important;
+}
+
+#zen-appcontent-navbar-container, #zen-sidebar-top-buttons, #zen-sidebar-foot-buttons {
+  background-color: $BACKGROUND !important;
+}
+
+#main-window, #browser {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+#vertical-tabs, #zen-vertical-tabs, #tabbrowser-tabs {
+  background-color: $BACKGROUND !important;
+}
+
+#browser, scrollbox {
+  scrollbar-color: $ACCENT $BACKGROUND !important;
+}
 EOF
 
 cat > "$CHROME_DIR/userContent.css" <<EOF
-/* Omarchy Zen - New Tab coordinated */
+/* Omarchy Zen - Full content coordination - covers about:preferences arrows */
 @-moz-document url("about:newtab"), url("about:home"), url("chrome://browser/content/browser.xhtml") {
-  body, #newtab-window, #root {
+  body, #newtab-window, #root, #body {
     background-color: $BACKGROUND !important;
     color: $FOREGROUND !important;
   }
@@ -171,15 +196,60 @@ cat > "$CHROME_DIR/userContent.css" <<EOF
     --in-content-box-border-color: ${ACCENT}40 !important;
     --in-content-primary-button-background: $ACCENT !important;
     --in-content-primary-button-text-color: $BACKGROUND !important;
+    --in-content-box-info-background: $SELECTION !important;
+    --card-background-color: $SELECTION !important;
+    --card-border-color: ${ACCENT}30 !important;
+    --in-content-border-color: ${ACCENT}30 !important;
+    --in-content-table-background: $SELECTION !important;
+    --in-content-table-border-color: ${ACCENT}30 !important;
   }
-  body {
+  html, body, #mainPrefPane, .pane-container, #content, .main-content, .sticky-container, #categories, .category {
     background-color: $BACKGROUND !important;
+    background: $BACKGROUND !important;
     color: $FOREGROUND !important;
+  }
+  .card, .info-box, .info-box-container, groupbox, .card-container, .sidebar-footer-list, .subcategory {
+    background-color: $SELECTION !important;
+    background: $SELECTION !important;
+    border: 1px solid ${ACCENT}30 !important;
+    border-radius: 12px !important;
+    color: $FOREGROUND !important;
+  }
+  #searchInput, input[type="search"], .search-tooltip, #findInSettings {
+    background-color: $SELECTION !important;
+    border: 1px solid ${ACCENT}60 !important;
+    border-radius: 10px !important;
+    color: $FOREGROUND !important;
+  }
+  #categories > .category[selected], #categories > .category:hover {
+    background-color: $SELECTION !important;
+    color: $FOREGROUND !important;
+    border-radius: 10px !important;
+  }
+  #categories {
+    background-color: $BACKGROUND !important;
+  }
+  button, .accessory-button {
+    background-color: $SELECTION !important;
+    border-color: ${ACCENT}40 !important;
+    color: $FOREGROUND !important;
+    border-radius: 10px !important;
+  }
+  button.primary {
+    background-color: $ACCENT !important;
+    color: $BACKGROUND !important;
   }
 }
 
 * {
   scrollbar-color: $ACCENT $BACKGROUND !important;
+  scrollbar-width: thin !important;
+}
+
+@-moz-document url-prefix("chrome://") {
+  :root, body, #browser {
+    background-color: $BACKGROUND !important;
+  }
 }
 EOF
 
@@ -194,5 +264,4 @@ user_pref("svg.context-properties.content.enabled", true);
 EJS
 fi
 
-# Touch to trigger Zen reload on next launch (Zen reads userChrome on startup)
 echo "Zen Omarchy theme synced to $BACKGROUND / $ACCENT for profile $ZEN_PROFILE_DIR"

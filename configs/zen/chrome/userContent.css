@@ -1,6 +1,6 @@
-/* Omarchy Zen - New Tab coordinated */
+/* Omarchy Zen - Full content coordination - covers about:preferences arrows */
 @-moz-document url("about:newtab"), url("about:home"), url("chrome://browser/content/browser.xhtml") {
-  body, #newtab-window, #root {
+  body, #newtab-window, #root, #body {
     background-color: #00061e !important;
     color: #EEF3F7 !important;
   }
@@ -14,13 +14,58 @@
     --in-content-box-border-color: #5682bb40 !important;
     --in-content-primary-button-background: #5682bb !important;
     --in-content-primary-button-text-color: #00061e !important;
+    --in-content-box-info-background: #1a1f35 !important;
+    --card-background-color: #1a1f35 !important;
+    --card-border-color: #5682bb30 !important;
+    --in-content-border-color: #5682bb30 !important;
+    --in-content-table-background: #1a1f35 !important;
+    --in-content-table-border-color: #5682bb30 !important;
   }
-  body {
+  html, body, #mainPrefPane, .pane-container, #content, .main-content, .sticky-container, #categories, .category {
     background-color: #00061e !important;
+    background: #00061e !important;
     color: #EEF3F7 !important;
+  }
+  .card, .info-box, .info-box-container, groupbox, .card-container, .sidebar-footer-list, .subcategory {
+    background-color: #1a1f35 !important;
+    background: #1a1f35 !important;
+    border: 1px solid #5682bb30 !important;
+    border-radius: 12px !important;
+    color: #EEF3F7 !important;
+  }
+  #searchInput, input[type="search"], .search-tooltip, #findInSettings {
+    background-color: #1a1f35 !important;
+    border: 1px solid #5682bb60 !important;
+    border-radius: 10px !important;
+    color: #EEF3F7 !important;
+  }
+  #categories > .category[selected], #categories > .category:hover {
+    background-color: #1a1f35 !important;
+    color: #EEF3F7 !important;
+    border-radius: 10px !important;
+  }
+  #categories {
+    background-color: #00061e !important;
+  }
+  button, .accessory-button {
+    background-color: #1a1f35 !important;
+    border-color: #5682bb40 !important;
+    color: #EEF3F7 !important;
+    border-radius: 10px !important;
+  }
+  button.primary {
+    background-color: #5682bb !important;
+    color: #00061e !important;
   }
 }
 
 * {
   scrollbar-color: #5682bb #00061e !important;
+  scrollbar-width: thin !important;
+}
+
+@-moz-document url-prefix("chrome://") {
+  :root, body, #browser {
+    background-color: #00061e !important;
+  }
 }
