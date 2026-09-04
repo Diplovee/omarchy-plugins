@@ -1,0 +1,87 @@
+{
+  "bar": {
+    "centerAnchor": "omarchy.clock",
+    "id": "inkay.bar",
+    "layout": {
+      "center": [
+        {
+          "id": "omarchy.indicators"
+        },
+        {
+          "format": "dddd h:mm AP",
+          "formatAlt": "d MMMM 'W'ww yyyy",
+          "id": "omarchy.clock",
+          "verticalFormat": "HH\n—\nmm"
+        },
+        {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "audioQuality": "320 kbps",
+          "id": "quickshell.ytmusic",
+          "idleShutdownMinutes": 15,
+          "searchHistory": "[\"freelance whales\",\"farhan generator\",\"generator first floor fanhan\",\"generator first floor\",\"generator of the first floor\"]",
+          "sessionState": "{\"tab\":\"home\",\"searchText\":\"\",\"libraryType\":\"tracks\",\"libraryFilter\":\"\",\"detailFilter\":\"\",\"detailItem\":null}",
+          "shortcutPlayer": "Omarchy Music app",
+          "showMiniPlayer": "On"
+        },
+        {
+          "id": "omarchy.spacer"
+        },
+        {
+          "id": "omarchy.system-update"
+        }
+      ],
+      "left": [
+        {
+          "id": "omarchy.menu"
+        },
+        {
+          "id": "omarchy.workspaces"
+        }
+      ],
+      "right": [
+        {
+          "id": "omarchy.tray"
+        },
+        {
+          "id": "inkay.void"
+        },
+        {
+          "id": "omarchy.agents"
+        },
+        {
+          "id": "omarchy.bluetooth"
+        },
+        {
+          "id": "omarchy.network"
+        },
+        {
+          "id": "omarchy.audio"
+        },
+        {
+          "id": "omarchy.monitor"
+        },
+        {
+          "id": "omarchy.power",
+          "showPercentage": false
+        },
+        {
+          "id": "inkay.thermal",
+          "useFahrenheit": false
+        }
+      ]
+    },
+    "position": "top",
+    "transparent": false
+  },
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [],
+  "version": 1
+}
