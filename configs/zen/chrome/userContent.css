@@ -1,0 +1,26 @@
+/* Omarchy Zen - New Tab coordinated */
+@-moz-document url("about:newtab"), url("about:home"), url("chrome://browser/content/browser.xhtml") {
+  body, #newtab-window, #root {
+    background-color: #00061e !important;
+    color: #EEF3F7 !important;
+  }
+}
+
+@-moz-document url-prefix("about:") {
+  :root {
+    --in-content-page-background: #00061e !important;
+    --in-content-page-color: #EEF3F7 !important;
+    --in-content-box-background: #1a1f35 !important;
+    --in-content-box-border-color: #5682bb40 !important;
+    --in-content-primary-button-background: #5682bb !important;
+    --in-content-primary-button-text-color: #00061e !important;
+  }
+  body {
+    background-color: #00061e !important;
+    color: #EEF3F7 !important;
+  }
+}
+
+* {
+  scrollbar-color: #5682bb #00061e !important;
+}

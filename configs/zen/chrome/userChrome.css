@@ -1,0 +1,111 @@
+/* Omarchy Zen - Auto-generated from /home/inkay/.local/state/omarchy/current/theme/colors.toml on $(date) */
+/* Theme: ${1:-unknown} - background #00061e, foreground #EEF3F7, accent #5682bb */
+
+:root {
+  --lwt-accent-color: #00061e !important;
+  --lwt-text-color: #EEF3F7 !important;
+  --arrowpanel-background: #00061e !important;
+  --arrowpanel-color: #EEF3F7 !important;
+  --arrowpanel-border-color: #5682bb !important;
+  --lwt-accent-color-inactive: #000517 !important;
+  --toolbar-bgcolor: #00061e !important;
+  --toolbar-color: #EEF3F7 !important;
+  --toolbar-non-lwt-bgcolor: #00061e !important;
+  --toolbar-non-lwt-textcolor: #EEF3F7 !important;
+  --toolbar-field-background-color: #1a1f35 !important;
+  --toolbar-field-color: #EEF3F7 !important;
+  --toolbar-field-border-color: #5682bb80 !important;
+  --toolbar-field-focus-background-color: #1a1f35 !important;
+  --toolbar-field-focus-color: #EEF3F7 !important;
+  --toolbar-field-focus-border-color: #5682bb !important;
+  --lwt-toolbar-field-highlight: #5682bb !important;
+  --lwt-toolbar-field-highlight-text: #00061e !important;
+  --tab-selected-bgcolor: #1a1f35 !important;
+  --tab-selected-textcolor: #EEF3F7 !important;
+  --lwt-selected-tab-background-color: #1a1f35 !important;
+  --tab-loading-fill: #5682bb !important;
+  --sidebar-background-color: #00061e !important;
+  --sidebar-text-color: #EEF3F7 !important;
+  --sidebar-border-color: #5682bb40 !important;
+  --chrome-content-separator-color: #5682bb40 !important;
+  --panel-background: #00061e !important;
+  --panel-color: #EEF3F7 !important;
+  --panel-border-color: #5682bb !important;
+  --zen-colors-primary: #00061e !important;
+  --zen-colors-secondary: #1a1f35 !important;
+  --zen-colors-tertiary: #000517 !important;
+  --zen-colors-border: #5682bb !important;
+  --zen-primary-color: #5682bb !important;
+  --zen-colors-input-bg: #1a1f35 !important;
+  --zen-border-radius: 12px !important;
+  --tab-border-radius: 10px !important;
+  --toolbar-field-border-radius: 10px !important;
+  --arrowpanel-border-radius: 12px !important;
+  --panel-border-radius: 12px !important;
+}
+
+#nav-bar, #PersonalToolbar, #TabsToolbar {
+  background-color: #00061e !important;
+  color: #EEF3F7 !important;
+  border-color: #5682bb40 !important;
+}
+
+#urlbar, #searchbar {
+  background-color: #1a1f35 !important;
+  color: #EEF3F7 !important;
+  border-radius: 10px !important;
+  border: 1px solid #5682bb60 !important;
+}
+
+#urlbar[open], #urlbar:focus-within {
+  background-color: #1a1f35 !important;
+  border-color: #5682bb !important;
+  box-shadow: 0 0 0 1px #5682bb !important;
+}
+
+#urlbar-background, #searchbar {
+  background-color: #1a1f35 !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-background {
+  background-color: #1a1f35 !important;
+  border: 1px solid #5682bb80 !important;
+  border-radius: 10px !important;
+}
+
+.tabbrowser-tab:not([selected="true"]) .tab-background {
+  background-color: transparent !important;
+  color: #5c5f64 !important;
+}
+
+.tabbrowser-tab:hover .tab-background {
+  background-color: #1a1f35aa !important;
+}
+
+.tab-content[selected="true"] {
+  color: #EEF3F7 !important;
+}
+
+#zen-sidebar, #sidebar-box, #sidebar {
+  background-color: #00061e !important;
+  color: #EEF3F7 !important;
+  border-color: #5682bb30 !important;
+}
+
+#zen-workspaces, .zen-workspace {
+  background-color: transparent !important;
+}
+
+.zen-workspace-active {
+  background-color: #1a1f35 !important;
+  border: 1px solid #5682bb !important;
+  border-radius: 10px !important;
+}
+
+#customization-panelWrapper > .panel-arrowcontent,
+panel, menupopup, .panel-arrowcontent {
+  background-color: #00061e !important;
+  color: #EEF3F7 !important;
+  border: 1px solid #5682bb !important;
+  border-radius: 12px !important;
+}
