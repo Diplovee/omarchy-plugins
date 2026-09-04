@@ -235,14 +235,25 @@ panel, menupopup, .panel-arrowcontent {
   opacity: 0.9 !important;
 }
 
-/* Right edge grey border - kill Zen's own border, let Hyprland handle */
+/* Right edge grey border - kill Zen's own border, let Hyprland handle - arrows */
 #browser, #appcontent, #tabbrowser-tabbox, #tabbrowser-tabpanels,
-#zen-main-app-wrapper, #zen-tabbox-wrapper, #tabbrowser-tabpanels {
+#zen-main-app-wrapper, #zen-tabbox-wrapper, #tabbrowser-tabpanels,
+#main-window, #navigator-toolbox, #titlebar, #tabbrowser-tabbox {
   border: none !important;
   border-left: none !important;
   border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
   box-shadow: none !important;
   outline: none !important;
+  margin: 0 !important;
+}
+
+/* Top outer grey line - ensure window fills Hyprland frame */
+:root, #main-window, #browser {
+  border: 0 !important;
+  --zen-window-border-color: transparent !important;
+  --chrome-content-separator-color: transparent !important;
 }
 
 #browser, scrollbox {
