@@ -38,10 +38,14 @@ hl.config({
   },
 })
 
--- Make kitty transparent enough for blur to show (overrides default 0.985 0.96)
--- Matches kitty.conf:background_opacity 0.85 -> window opacity needs to allow it
+-- Make terminals transparent enough for blur to show (overrides default 0.985 0.96)
+-- Matches kitty:background_opacity 0.85, foot:alpha 0.85, ghostty:background-opacity 0.85
 o.window("kitty", { tag = "-default-opacity" })
 o.window("kitty", { opacity = "0.92 0.85" })
+o.window("foot", { tag = "-default-opacity" })
+o.window("foot", { opacity = "0.92 0.85" })
+o.window("com.mitchellh.ghostty", { tag = "-default-opacity" })
+o.window("com.mitchellh.ghostty", { opacity = "0.92 0.85" })
 
 -- Blur behind all layer surfaces (menu, bar, notifications, clipboard, etc) - makes glassy modern look
 hl.layer_rule({ match = { namespace = "omarchy-.*" }, blur = true, ignore_alpha = 0.2, xray = false })
