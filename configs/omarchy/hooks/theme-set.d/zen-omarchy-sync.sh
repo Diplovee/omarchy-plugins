@@ -214,6 +214,37 @@ panel, menupopup, .panel-arrowcontent {
   background: $BACKGROUND !important;
 }
 
+/* Grey near border + weird square under icons - force transparent */
+#zen-essentials, #zen-essentials-container, #zen-sidebar-essentials,
+.zen-essentials, .zen-essentials-wrapper, #tabbrowser-tabs, #vertical-tabs {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Search icon grey square - magnifying glass wrapper */
+#zen-essentials-search .search-icon, .zen-essentials-search-wrapper .search-icon,
+#zen-sidebar-search .search-icon, input[placeholder="Search..."] + image,
+.search-container image, #zen-sidebar-search-container image {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  opacity: 0.9 !important;
+}
+
+/* Right edge grey border - kill Zen's own border, let Hyprland handle */
+#browser, #appcontent, #tabbrowser-tabbox, #tabbrowser-tabpanels,
+#zen-main-app-wrapper, #zen-tabbox-wrapper, #tabbrowser-tabpanels {
+  border: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 #browser, scrollbox {
   scrollbar-color: $ACCENT $BACKGROUND !important;
 }
