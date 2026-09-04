@@ -174,6 +174,46 @@ panel, menupopup, .panel-arrowcontent {
   background-color: $BACKGROUND !important;
 }
 
+/* Left sidebar essentials search - fixes weird icon bg arrow in screenshot */
+#zen-essentials-search, #zen-sidebar-search, .zen-essentials-search-wrapper,
+#zen-sidebar-search-container, .search-container, input[placeholder="Search..."] {
+  background-color: $SELECTION !important;
+  background: $SELECTION !important;
+  border: 1px solid ${ACCENT}40 !important;
+  border-radius: 10px !important;
+  color: $FOREGROUND !important;
+}
+
+#zen-essentials-search input, #zen-sidebar-search input, input[placeholder="Search..."] {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: $FOREGROUND !important;
+}
+
+/* Weird icon bg - essentials grid icons have leftover dark square */
+.zen-essentials-container, #zen-essentials, #zen-sidebar-essentials-wrapper,
+.zen-essential, .zen-essential-icon, .zen-workspace-icon-wrapper {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.zen-essential image, .zen-workspace-icon image, #zen-sidebar .toolbarbutton-icon,
+#zen-essentials .toolbarbutton-icon {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+}
+
+/* Overall leftover - ensure sidebar and all wrappers coordinated */
+#zen-sidebar-panel, .zen-sidebar-panel, #zen-sidebar-wrapper, #zen-essentials-wrapper {
+  background-color: $BACKGROUND !important;
+  background: $BACKGROUND !important;
+}
+
 #browser, scrollbox {
   scrollbar-color: $ACCENT $BACKGROUND !important;
 }

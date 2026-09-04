@@ -1,42 +1,42 @@
-/* Omarchy Zen - Auto-generated from /home/inkay/.local/state/omarchy/current/theme/colors.toml on Fri Sep  4 03:37:05 AM CAT 2026 */
-/* Theme: fix-arrows - background #00061e, foreground #EEF3F7, accent #5682bb */
+/* Omarchy Zen - Auto-generated from /home/inkay/.local/state/omarchy/current/theme/colors.toml on Fri Sep  4 03:46:53 AM CAT 2026 */
+/* Theme: hooked - background #190000, foreground #E4DEDD, accent #a96580 */
 
 :root {
-  --lwt-accent-color: #00061e !important;
-  --lwt-text-color: #EEF3F7 !important;
-  --arrowpanel-background: #00061e !important;
-  --arrowpanel-color: #EEF3F7 !important;
-  --arrowpanel-border-color: #5682bb !important;
-  --lwt-accent-color-inactive: #000517 !important;
-  --toolbar-bgcolor: #00061e !important;
-  --toolbar-color: #EEF3F7 !important;
-  --toolbar-non-lwt-bgcolor: #00061e !important;
-  --toolbar-non-lwt-textcolor: #EEF3F7 !important;
-  --toolbar-field-background-color: #1a1f35 !important;
-  --toolbar-field-color: #EEF3F7 !important;
-  --toolbar-field-border-color: #5682bb80 !important;
-  --toolbar-field-focus-background-color: #1a1f35 !important;
-  --toolbar-field-focus-color: #EEF3F7 !important;
-  --toolbar-field-focus-border-color: #5682bb !important;
-  --lwt-toolbar-field-highlight: #5682bb !important;
-  --lwt-toolbar-field-highlight-text: #00061e !important;
-  --tab-selected-bgcolor: #1a1f35 !important;
-  --tab-selected-textcolor: #EEF3F7 !important;
-  --lwt-selected-tab-background-color: #1a1f35 !important;
-  --tab-loading-fill: #5682bb !important;
-  --sidebar-background-color: #00061e !important;
-  --sidebar-text-color: #EEF3F7 !important;
-  --sidebar-border-color: #5682bb40 !important;
-  --chrome-content-separator-color: #5682bb40 !important;
-  --panel-background: #00061e !important;
-  --panel-color: #EEF3F7 !important;
-  --panel-border-color: #5682bb !important;
-  --zen-colors-primary: #00061e !important;
-  --zen-colors-secondary: #1a1f35 !important;
-  --zen-colors-tertiary: #000517 !important;
-  --zen-colors-border: #5682bb !important;
-  --zen-primary-color: #5682bb !important;
-  --zen-colors-input-bg: #1a1f35 !important;
+  --lwt-accent-color: #190000 !important;
+  --lwt-text-color: #E4DEDD !important;
+  --arrowpanel-background: #190000 !important;
+  --arrowpanel-color: #E4DEDD !important;
+  --arrowpanel-border-color: #a96580 !important;
+  --lwt-accent-color-inactive: #130000 !important;
+  --toolbar-bgcolor: #190000 !important;
+  --toolbar-color: #E4DEDD !important;
+  --toolbar-non-lwt-bgcolor: #190000 !important;
+  --toolbar-non-lwt-textcolor: #E4DEDD !important;
+  --toolbar-field-background-color: #301a1a !important;
+  --toolbar-field-color: #E4DEDD !important;
+  --toolbar-field-border-color: #a9658080 !important;
+  --toolbar-field-focus-background-color: #301a1a !important;
+  --toolbar-field-focus-color: #E4DEDD !important;
+  --toolbar-field-focus-border-color: #a96580 !important;
+  --lwt-toolbar-field-highlight: #a96580 !important;
+  --lwt-toolbar-field-highlight-text: #190000 !important;
+  --tab-selected-bgcolor: #301a1a !important;
+  --tab-selected-textcolor: #E4DEDD !important;
+  --lwt-selected-tab-background-color: #301a1a !important;
+  --tab-loading-fill: #a96580 !important;
+  --sidebar-background-color: #190000 !important;
+  --sidebar-text-color: #E4DEDD !important;
+  --sidebar-border-color: #a9658040 !important;
+  --chrome-content-separator-color: #a9658040 !important;
+  --panel-background: #190000 !important;
+  --panel-color: #E4DEDD !important;
+  --panel-border-color: #a96580 !important;
+  --zen-colors-primary: #190000 !important;
+  --zen-colors-secondary: #301a1a !important;
+  --zen-colors-tertiary: #130000 !important;
+  --zen-colors-border: #a96580 !important;
+  --zen-primary-color: #a96580 !important;
+  --zen-colors-input-bg: #301a1a !important;
   --zen-border-radius: 12px !important;
   --tab-border-radius: 10px !important;
   --toolbar-field-border-radius: 10px !important;
@@ -45,51 +45,51 @@
 }
 
 #nav-bar, #PersonalToolbar, #TabsToolbar {
-  background-color: #00061e !important;
-  color: #EEF3F7 !important;
-  border-color: #5682bb40 !important;
+  background-color: #190000 !important;
+  color: #E4DEDD !important;
+  border-color: #a9658040 !important;
 }
 
 #urlbar, #searchbar {
-  background-color: #1a1f35 !important;
-  color: #EEF3F7 !important;
+  background-color: #301a1a !important;
+  color: #E4DEDD !important;
   border-radius: 10px !important;
-  border: 1px solid #5682bb60 !important;
+  border: 1px solid #a9658060 !important;
 }
 
 #urlbar[open], #urlbar:focus-within {
-  background-color: #1a1f35 !important;
-  border-color: #5682bb !important;
-  box-shadow: 0 0 0 1px #5682bb !important;
+  background-color: #301a1a !important;
+  border-color: #a96580 !important;
+  box-shadow: 0 0 0 1px #a96580 !important;
 }
 
 #urlbar-background, #searchbar {
-  background-color: #1a1f35 !important;
+  background-color: #301a1a !important;
 }
 
 .tabbrowser-tab[selected="true"] .tab-background {
-  background-color: #1a1f35 !important;
-  border: 1px solid #5682bb80 !important;
+  background-color: #301a1a !important;
+  border: 1px solid #a9658080 !important;
   border-radius: 10px !important;
 }
 
 .tabbrowser-tab:not([selected="true"]) .tab-background {
   background-color: transparent !important;
-  color: #5c5f64 !important;
+  color: #645d5b !important;
 }
 
 .tabbrowser-tab:hover .tab-background {
-  background-color: #1a1f35aa !important;
+  background-color: #301a1aaa !important;
 }
 
 .tab-content[selected="true"] {
-  color: #EEF3F7 !important;
+  color: #E4DEDD !important;
 }
 
 #zen-sidebar, #sidebar-box, #sidebar {
-  background-color: #00061e !important;
-  color: #EEF3F7 !important;
-  border-color: #5682bb30 !important;
+  background-color: #190000 !important;
+  color: #E4DEDD !important;
+  border-color: #a9658030 !important;
 }
 
 #zen-workspaces, .zen-workspace {
@@ -97,29 +97,29 @@
 }
 
 .zen-workspace-active {
-  background-color: #1a1f35 !important;
-  border: 1px solid #5682bb !important;
+  background-color: #301a1a !important;
+  border: 1px solid #a96580 !important;
   border-radius: 10px !important;
 }
 
 #customization-panelWrapper > .panel-arrowcontent,
 panel, menupopup, .panel-arrowcontent {
-  background-color: #00061e !important;
-  color: #EEF3F7 !important;
-  border: 1px solid #5682bb !important;
+  background-color: #190000 !important;
+  color: #E4DEDD !important;
+  border: 1px solid #a96580 !important;
   border-radius: 12px !important;
 }
 
 /* Fix remaining chrome sections - top outer, right edge, content bg */
 #browser, #appcontent, #tabbrowser-tabbox, #tabbrowser-tabpanels, #main-window,
 #navigator-toolbox, #titlebar, #TabsToolbar, #zen-main-app-wrapper, #zen-tabbox-wrapper {
-  background-color: #00061e !important;
-  background: #00061e !important;
-  border-color: #5682bb30 !important;
+  background-color: #190000 !important;
+  background: #190000 !important;
+  border-color: #a9658030 !important;
 }
 
 #zen-appcontent-navbar-container, #zen-sidebar-top-buttons, #zen-sidebar-foot-buttons {
-  background-color: #00061e !important;
+  background-color: #190000 !important;
 }
 
 #main-window, #browser {
@@ -128,9 +128,49 @@ panel, menupopup, .panel-arrowcontent {
 }
 
 #vertical-tabs, #zen-vertical-tabs, #tabbrowser-tabs {
-  background-color: #00061e !important;
+  background-color: #190000 !important;
+}
+
+/* Left sidebar essentials search - fixes weird icon bg arrow in screenshot */
+#zen-essentials-search, #zen-sidebar-search, .zen-essentials-search-wrapper,
+#zen-sidebar-search-container, .search-container, input[placeholder="Search..."] {
+  background-color: #301a1a !important;
+  background: #301a1a !important;
+  border: 1px solid #a9658040 !important;
+  border-radius: 10px !important;
+  color: #E4DEDD !important;
+}
+
+#zen-essentials-search input, #zen-sidebar-search input, input[placeholder="Search..."] {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #E4DEDD !important;
+}
+
+/* Weird icon bg - essentials grid icons have leftover dark square */
+.zen-essentials-container, #zen-essentials, #zen-sidebar-essentials-wrapper,
+.zen-essential, .zen-essential-icon, .zen-workspace-icon-wrapper {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.zen-essential image, .zen-workspace-icon image, #zen-sidebar .toolbarbutton-icon,
+#zen-essentials .toolbarbutton-icon {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+}
+
+/* Overall leftover - ensure sidebar and all wrappers coordinated */
+#zen-sidebar-panel, .zen-sidebar-panel, #zen-sidebar-wrapper, #zen-essentials-wrapper {
+  background-color: #190000 !important;
+  background: #190000 !important;
 }
 
 #browser, scrollbox {
-  scrollbar-color: #5682bb #00061e !important;
+  scrollbar-color: #a96580 #190000 !important;
 }
