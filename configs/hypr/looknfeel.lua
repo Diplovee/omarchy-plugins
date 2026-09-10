@@ -58,6 +58,7 @@ o.window("code-url-handler", { tag = "-default-opacity" })
 o.window("code-url-handler", { opacity = "0.94 0.89" })
 
 -- Blur behind all layer surfaces (menu, bar, notifications, clipboard, etc) - makes glassy modern look
+hl.layer_rule({ match = { namespace = "omarchy-bar" }, blur = true, ignore_alpha = 0.2 })
 hl.layer_rule({ match = { namespace = "omarchy-.*" }, blur = true, ignore_alpha = 0.2, xray = false })
 hl.layer_rule({ match = { namespace = "quickshell" }, blur = true, ignore_alpha = 0.2 })
 hl.layer_rule({ match = { namespace = "notifications" }, blur = true, ignore_alpha = 0.2 })
