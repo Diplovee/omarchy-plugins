@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "id": "inkay.gore",
+  "name": "Gore Control",
+  "version": "0.1.0",
+  "author": "inkay",
+  "license": "MIT",
+  "description": "Lightweight control center for the Gore homelab server: online status, health, terminal/Herdr/logs launchers.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Gore Control",
+    "description": "Shows whether Gore is reachable; click for health and actions.",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "host": "gore",
+      "displayName": "Gore",
+      "tagline": "My homelab",
+      "pollIntervalSeconds": 5,
+      "connectTimeoutSeconds": 2,
+      "offlineFailureThreshold": 3,
+      "diskWarningPercent": 85,
+      "notifyDisconnect": true,
+      "notifyReconnect": true,
+      "notifyHealthProblems": true
+    },
+    "schema": [
+      {
+        "key": "host",
+        "type": "string",
+        "label": "SSH host",
+        "description": "SSH hostname for Gore (never a hardcoded IP)",
+        "defaultValue": "gore"
+      },
+      {
+        "key": "displayName",
+        "type": "string",
+        "label": "Display name",
+        "defaultValue": "Gore"
+      },
+      {
+        "key": "tagline",
+        "type": "string",
+        "label": "Tagline",
+        "description": "Subtitle shown under the panel header",
+        "defaultValue": "My homelab"
+      },
+      {
+        "key": "pollIntervalSeconds",
+        "type": "integer",
+        "label": "Poll interval (seconds)",
+        "min": 2,
+        "max": 120,
+        "defaultValue": 5
+      },
+      {
+        "key": "connectTimeoutSeconds",
+        "type": "integer",
+        "label": "SSH connect timeout (seconds)",
+        "min": 1,
+        "max": 30,
+        "defaultValue": 2
+      },
+      {
+        "key": "offlineFailureThreshold",
+        "type": "integer",
+        "label": "Failures before OFFLINE",
+        "min": 1,
+        "max": 10,
+        "defaultValue": 3
+      },
+      {
+        "key": "diskWarningPercent",
+        "type": "integer",
+        "label": "Disk warning (%)",
+        "min": 50,
+        "max": 99,
+        "defaultValue": 85
+      },
+      {
+        "key": "notifyDisconnect",
+        "type": "boolean",
+        "label": "Notify on disconnect",
+        "defaultValue": true
+      },
+      {
+        "key": "notifyReconnect",
+        "type": "boolean",
+        "label": "Notify on reconnect",
+        "defaultValue": true
+      },
+      {
+        "key": "notifyHealthProblems",
+        "type": "boolean",
+        "label": "Notify on health problems",
+        "defaultValue": true
+      }
+    ]
+  }
+}

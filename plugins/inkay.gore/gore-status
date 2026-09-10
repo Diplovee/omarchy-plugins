@@ -1,0 +1,128 @@
+#!/bin/sh
+# gore-status — one-shot JSON health report for the Gore Control plugin.
+#
+# Installed on Gore at ~/.local/bin/gore-status (user-owned, no root).
+# The plugin runs `ssh gore gore-status --json` about every 5 seconds.
+#
+# Requirements honored:
+#   - no root needed (reads /proc, df, systemctl is-active as the user)
+#   - no Internet access needed
+#   - no secrets printed
+#   - exit 0 + JSON object on success, non-zero + stderr message on failure
+#   - fast: only builtin/cheap collectors, no docker inspect by default
+set -u
+
+usage() {
+  echo "Usage: gore-status --json" >&2
+  echo "Prints a one-shot JSON health report to stdout." >&2
+}
+
+if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
+  usage
+  exit 0
+fi
+if [ "${1:-}" != "--json" ]; then
+  usage
+  exit 2
+fi
+
+fail() {
+  echo "gore-status: $1" >&2
+  exit 1
+}
+
+# --- host (sanitized to safe characters) ---
+HOST_RAW="$(hostname 2>/dev/null)" || fail "cannot determine hostname"
+HOST="$(printf '%s' "$HOST_RAW" | tr -c 'A-Za-z0-9.-' '_')"
+[ -n "$HOST" ] || fail "empty hostname"
+
+# --- uptime + load (/proc, no fork-heavy tools) ---
+[ -r /proc/uptime ] || fail "cannot read /proc/uptime"
+[ -r /proc/loadavg ] || fail "cannot read /proc/loadavg"
+# shellcheck disable=SC2162
+read -r UPTIME_IDLE _ < /proc/uptime 2>/dev/null || fail "cannot parse /proc/uptime"
+UPTIME="${UPTIME_IDLE%.*}"
+case "$UPTIME" in ''|*[!0-9]*) fail "cannot parse /proc/uptime" ;; esac
+# shellcheck disable=SC2162
+read -r L1 L5 L15 _ < /proc/loadavg 2>/dev/null || fail "cannot parse /proc/loadavg"
+
+# --- memory (/proc/meminfo) ---
+[ -r /proc/meminfo ] || fail "cannot read /proc/meminfo"
+MEM_TOTAL_KB="$(awk '/^MemTotal:/ {print $2}' /proc/meminfo)"
+MEM_AVAIL_KB="$(awk '/^MemAvailable:/ {print $2}' /proc/meminfo)"
+case "$MEM_TOTAL_KB" in ''|*[!0-9]*) fail "cannot parse MemTotal" ;; esac
+case "$MEM_AVAIL_KB" in ''|*[!0-9]*) fail "cannot parse MemAvailable" ;; esac
+MEM_TOTAL=$((MEM_TOTAL_KB * 1024))
+MEM_USED=$(((MEM_TOTAL_KB - MEM_AVAIL_KB) * 1024))
+
+# --- disk (root filesystem) ---
+DF_LINE="$(df -B1 --output=used,size,pcent / 2>/dev/null | tail -n 1)" || fail "df failed"
+DISK_USED="$(printf '%s' "$DF_LINE" | awk '{print $1}')"
+DISK_TOTAL="$(printf '%s' "$DF_LINE" | awk '{print $2}')"
+DISK_PCT="$(printf '%s' "$DF_LINE" | awk '{print $3}' | tr -d '%')"
+case "$DISK_USED" in ''|*[!0-9]*) fail "cannot parse disk usage" ;; esac
+case "$DISK_TOTAL" in ''|*[!0-9]*) fail "cannot parse disk size" ;; esac
+case "$DISK_PCT" in ''|*[!0-9]*) fail "cannot parse disk percent" ;; esac
+
+# --- services (best-effort; unknown is reported, not fatal) ---
+svc_state() {
+  # $1 = unit name. Prints running|failed|inactive|unknown.
+  if ! command -v systemctl >/dev/null 2>&1; then
+    printf 'unknown'
+    return
+  fi
+  st="$(systemctl is-active "$1" 2>/dev/null)" || st="unknown"
+  case "$st" in
+    active) printf 'running' ;;
+    failed) printf 'failed' ;;
+    inactive|deactivating|activating) printf '%s' "$st" ;;
+    *) printf 'unknown' ;;
+  esac
+}
+SSH_STATE="$(svc_state ssh)"
+DOCKER_STATE="$(svc_state docker)"
+
+FAILED_UNITS=0
+if command -v systemctl >/dev/null 2>&1; then
+  FAILED_UNITS="$(systemctl --failed --no-legend --plain 2>/dev/null | grep -c . || true)"
+  case "$FAILED_UNITS" in ''|*[!0-9]*) FAILED_UNITS=0 ;; esac
+fi
+
+# --- cpu (two /proc/stat samples ~0.3s apart; integer percent) ---
+cpu_snapshot() {
+  awk '/^cpu / {print $2+$3+$4+$5+$6+$7+$8, $5}' /proc/stat 2>/dev/null
+}
+CPU_PCT="null"
+set -- $(cpu_snapshot 2>/dev/null) && {
+  T1="${1:-0}"; I1="${2:-0}"
+  sleep 0.3
+  set -- $(cpu_snapshot 2>/dev/null) && {
+    T2="${1:-0}"; I2="${2:-0}"
+    DT=$((T2 - T1)); DI=$((I2 - I1))
+    if [ "$DT" -gt 0 ] && [ "$DI" -ge 0 ] && [ "$DI" -le "$DT" ]; then
+      CPU_PCT=$((100 * (DT - DI) / DT))
+    fi
+  }
+} || true
+case "$CPU_PCT" in ''|*[!0-9]*) CPU_PCT="null" ;; esac
+
+# --- os pretty name (sanitized) ---
+OS_PRETTY="Gore"
+if [ -r /etc/os-release ]; then
+  OS_RAW="$( ( . /etc/os-release && printf '%s' "${PRETTY_NAME:-}") 2>/dev/null)"
+  OS_CLEAN="$(printf '%s' "$OS_RAW" | tr -c 'A-Za-z0-9. _+-' '_' | cut -c1-64)"
+  [ -n "$OS_CLEAN" ] && OS_PRETTY="$OS_CLEAN"
+fi
+
+# --- pending updates (cheap motd cache file; null when unknown) ---
+UPDATES="null"
+if [ -r /var/lib/update-notifier/updates-available ]; then
+  N="$(grep -m1 -o '^[0-9][0-9]* updates\?' /var/lib/update-notifier/updates-available 2>/dev/null | grep -m1 -o '^[0-9][0-9]*')"
+  case "$N" in ''|*[!0-9]*) ;; *) UPDATES="$N" ;; esac
+fi
+
+# --- emit (all values numeric except controlled enums + sanitized strings) ---
+printf '{"host":"%s","status":"healthy","uptimeSeconds":%s,"cpuPercent":%s,"osPretty":"%s","updatesAvailable":%s,"load":{"oneMinute":%s,"fiveMinute":%s,"fifteenMinute":%s},"memory":{"usedBytes":%s,"totalBytes":%s},"disk":{"usedBytes":%s,"totalBytes":%s,"percent":%s},"services":{"ssh":"%s","docker":"%s"},"failedSystemdUnits":%s,"containers":[]}\n' \
+  "$HOST" "$UPTIME" "$CPU_PCT" "$OS_PRETTY" "$UPDATES" "$L1" "$L5" "$L15" \
+  "$MEM_USED" "$MEM_TOTAL" "$DISK_USED" "$DISK_TOTAL" "$DISK_PCT" \
+  "$SSH_STATE" "$DOCKER_STATE" "$FAILED_UNITS"
