@@ -257,9 +257,32 @@ BarWidget {
     if ("hostWidget" in t) t.hostWidget = root
   }
 
-  function openPanel() { if (panelObject) panelObject.open() }
+  // The panel is loaded asynchronously.  A click immediately after the bar
+  // starts (or while the shell is busy) can otherwise be lost because the
+  // Loader has no item yet.  Queue the request until Loader.onLoaded runs.
+  function openPanel() {
+    panelLoader.active = true
+    if (panelObject) {
+      panelObject.open()
+      return
+    }
+    Qt.callLater(function() {
+      if (panelObject) panelObject.open()
+    })
+  }
   function closePanel() { if (panelObject) panelObject.close() }
-  function togglePanel() { if (panelObject) panelObject.toggle() }
+  // Bar.summonBarWidget uses this contract for reliable panel routing,
+  // including when the host is offline.
+  readonly property bool opened: panelObject ? panelObject.opened === true : false
+  function open() { openPanel() }
+  function close() { closePanel() }
+  function togglePanel() {
+    if (panelObject) {
+      panelObject.toggle()
+      return
+    }
+    openPanel()
+  }
 
   // Single press handler shared by the bar button and the `click` IPC
   // (lets us verify the press path headlessly).
@@ -271,7 +294,9 @@ BarWidget {
       // Dismissal is handled by outside-clicks or ESC, so a click on the
       // bar icon can't feel like it "always closes".
       root.openPanel()
-      if (root.panelObject) root.panelObject.refresh()
+      Qt.callLater(function() {
+        if (root.panelObject) root.panelObject.refresh()
+      })
     }
   }
 
@@ -300,7 +325,12 @@ BarWidget {
   IpcHandler {
     target: "inkay.gore"
     function toggle(): void { root.togglePanel() }
-    function click(): void { root.openPanel(); if (root.panelObject) root.panelObject.refresh() }
+    function click(): void {
+      root.openPanel()
+      Qt.callLater(function() {
+        if (root.panelObject) root.panelObject.refresh()
+      })
+    }
     function refresh(): void { root.refresh() }
     function state(): string { return root.stateJson() }
   }
