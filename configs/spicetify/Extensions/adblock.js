@@ -264,15 +264,80 @@
         if (redirectError) engineStatus.adServerRedirectError = redirectError;
     }
 
+    // --- Ad trace: record track transitions so an ad's real signature is visible ---
+    // The metadata flags this extension checks never fire on this client (audio counter
+    // stays 0), so record what the player actually reports and read it back from storage
+    // instead of guessing field names.
+    const TRACE_KEY = "adblock-trace";
+    const TRACE_MAX = 12;
+
+    // Spicetify.Player.data is the raw player state; the track lives under `item` on
+    // this build (there is no `track` alias), which is why every metadata check in the
+    // upstream engine silently read undefined and the audio counter stayed at 0.
+    function playerState() {
+        return Spicetify.Player?.data || null;
+    }
+
+    function currentTrack() {
+        const data = playerState();
+        return (data && (data.item || data.track)) || null;
+    }
+
+    function traceTrack() {
+        try {
+            const data = playerState();
+            const track = currentTrack();
+            if (!track) return;
+            const meta = track.metadata || {};
+            const duration = track.duration && track.duration.milliseconds
+                ? track.duration.milliseconds
+                : (meta.duration ? Number(meta.duration) : null);
+            const entry = {
+                at: Math.round(Date.now() / 1000),
+                uri: track.uri || null,
+                name: track.name || meta.title || null,
+                artist: (track.artists && track.artists.length ? track.artists.map((a) => a.name).join(", ") : meta.artist) || null,
+                album: (track.album && track.album.name) || meta.album_title || null,
+                ms: duration,
+                isAdFlag: meta.is_advertisement ?? null,
+                adId: meta.ad_id ?? null,
+                provider: track.provider ?? null,
+                type: track.type ?? null,
+                mediaType: track.mediaType ?? null,
+                advertisingFlag: data ? (data.is_advertising ?? null) : null,
+                stateKeys: data ? Object.keys(data) : [],
+                metaKeys: Object.keys(meta)
+            };
+            const list = JSON.parse(localStorage.getItem(TRACE_KEY) || "[]");
+            list.push(entry);
+            while (list.length > TRACE_MAX) list.shift();
+            localStorage.setItem(TRACE_KEY, JSON.stringify(list));
+        } catch (e) {
+            console.warn("[Adblock] trace failed:", e);
+        }
+    }
+
     // --- Fallback Audio Ad Auto-Mute & Auto-Skip ---
     // Free-tier ads arrive as interleaved tracks, so songchange alone can miss them;
     // detection is shared and re-checked on a timer as well.
     function currentTrackIsAd() {
-        const track = Spicetify.Player?.data?.track;
+        const data = playerState();
+        if (data && data.is_advertising === true) return true;
+
+        const track = currentTrack();
         if (!track) return false;
         if (track.metadata?.is_advertisement === "true") return true;
         if (track.metadata?.ad_id) return true;
         if (typeof track.uri === "string" && track.uri.includes("spotify:ad:")) return true;
+
+        // Playable items are provided by the playback context; ads are not. This is the
+        // signal that actually differs on this build (item.provider === "context" for
+        // music), because the upstream metadata flags are never set.
+        const AD_VALUES = ["ad", "ads", "advertisement", "advertisement_track"];
+        for (const field of ["provider", "type", "mediaType"]) {
+            const value = track[field];
+            if (typeof value === "string" && AD_VALUES.includes(value.toLowerCase())) return true;
+        }
 
         // The client's own ad pipelines report a live ad even when metadata is bare.
         const inStream = Platform.AdManagers?.audio?.inStreamApi;
@@ -288,7 +353,7 @@
 
     function handleTrackChange() {
         if (!isAdblockEnabled) return;
-        if (!Spicetify.Player?.data?.track) return;
+        if (!currentTrack()) return;
 
         const isAd = currentTrackIsAd();
 
@@ -321,8 +386,14 @@
     }
 
     if (Spicetify.Player) {
-        Spicetify.Player.addEventListener("songchange", handleTrackChange);
+        Spicetify.Player.addEventListener("songchange", () => {
+            traceTrack();
+            handleTrackChange();
+        });
     }
+
+    // Baseline entry for whatever is playing right now.
+    traceTrack();
 
     // Short ads can start and finish between songchange events.
     setInterval(() => {
