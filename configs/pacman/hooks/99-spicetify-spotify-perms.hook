@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = spotify
+
+[Action]
+Description = Re-applying spicetify write access on /opt/spotify...
+When = PostTransaction
+Exec = /usr/bin/chown -R inkay:inkay /opt/spotify
