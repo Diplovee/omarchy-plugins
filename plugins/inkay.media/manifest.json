@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "inkay.media",
+  "name": "Media",
+  "version": "1.0.0",
+  "author": "inkay",
+  "license": "MIT",
+  "description": "MPRIS now-playing bar widget with playback controls, seek and volume sliders.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Media",
+    "description": "MPRIS now-playing with playback controls, seek and volume sliders.",
+    "category": "Media",
+    "aliases": ["media", "omarchy.media"],
+    "allowMultiple": false
+  }
+}
