@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "inkay.shg",
+  "name": "SHG Control",
+  "version": "0.1.0",
+  "author": "inkay",
+  "license": "MIT",
+  "description": "Control center for the SHG Android CLI: recent projects, device connect/pair, connection status, doctor issues, build/run/logs launchers.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "SHG Control",
+    "description": "Shows connected Android devices; click for projects, devices, issues and actions.",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "pollIntervalSeconds": 4,
+      "scanRoots": ["~/Projects", "~/Musika", "~/shg"],
+      "notifyDisconnect": true,
+      "notifyConnect": true
+    },
+    "schema": [
+      { "key": "pollIntervalSeconds", "type": "integer", "label": "Device poll interval (seconds)", "min": 2, "max": 60, "defaultValue": 4 },
+      { "key": "notifyDisconnect", "type": "boolean", "label": "Notify when a device disconnects", "defaultValue": true },
+      { "key": "notifyConnect", "type": "boolean", "label": "Notify when a device connects", "defaultValue": true }
+    ]
+  }
+}

@@ -9,6 +9,7 @@ Personal [Omarchy](https://omarchy.org/) shell plugins by **inkay** — bar widg
 | Plugin | ID | Description |
 |--------|----|-------------|
 | **[thermal](plugins/inkay.thermal/)** | `inkay.thermal` | CPU/GPU/SSD/WiFi heat monitor. Bar shows hottest temp with a thin heat bar (green → yellow → orange → red). Click for breakdown, 5-ACPI collapsed by default, history sparkline, °C/°F toggle. |
+| **[shg](plugins/inkay.shg/)** | `inkay.shg` | Control center for the SHG Android CLI: recent/scanned Capacitor projects, device status + connect/disconnect notifications, QR/manual Wi-Fi pairing, `shg doctor` issues, build/run/live-reload/logs launchers. |
 | **[void](plugins/inkay.void/)** | `inkay.void` | Hide windows to `special:void` and restore on demand. Bar appears only when windows are hidden. |
 
 ### screenshots
