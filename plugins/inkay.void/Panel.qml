@@ -20,14 +20,21 @@ Panel {
   readonly property color foreground: bar ? bar.foreground : Color.foreground
   readonly property color dim: Qt.darker(foreground, 1.55)
   readonly property color surface: Color.popups.background
-  readonly property var appLibrary: root.bar && root.bar.shell ? root.bar.shell.appLibrary : null
+
+  function iconSource(icon) {
+    var value = String(icon || "")
+    if (value.indexOf("file://") === 0 || value.indexOf("image://") === 0) return value
+    if (value.charAt(0) === "/") return "file://" + value
+    var themed = value ? Quickshell.iconPath(value, true) : ""
+    return themed || Quickshell.iconPath("application-x-executable", true)
+  }
 
   function normalizedIconKey(value) {
     return String(value || "").toLowerCase().replace(/\.desktop$/, "").replace(/[^a-z0-9]/g, "")
   }
 
   function iconSourceFor(client) {
-    if (!client || !root.appLibrary) return ""
+    if (!client) return ""
     var classes = [client.initialClass, client.className]
     var aliases = []
     for (var c = 0; c < classes.length; c++) {
@@ -65,12 +72,12 @@ Panel {
         }
       }
     }
-    if (best) return root.appLibrary.iconSource(String(best.icon))
+    if (best) return root.iconSource(String(best.icon))
 
     // Some apps expose only a WM class and no matching desktop entry. The
-    // shared library still applies the current icon-theme lookup and generic
+    // resolver still applies the current icon-theme lookup and generic
     // executable fallback for those cases.
-    return root.appLibrary.iconSource(String(classes[0] || classes[1] || "application-x-executable"))
+    return root.iconSource(String(classes[0] || classes[1] || "application-x-executable"))
   }
 
   function open() {
